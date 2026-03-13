@@ -1,0 +1,93 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "E-Commerce Platform",
+      "description": "A full-stack e-commerce solution with real-time inventory management.",
+      "image": "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&q=80",
+      "tags": [
+        "React",
+        "Node.js",
+        "MongoDB"
+      ],
+      "link": "#"
+    },
+    {
+      "id": 2,
+      "title": "Portfolio Website",
+      "description": "My personal portfolio showcasing my work and skills.",
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+      "tags": [
+        "HTML/CSS",
+        "JavaScript"
+      ],
+      "link": "#"
+    },
+    {
+      "id": 3,
+      "title": "Task Management App",
+      "description": "A productivity tool for teams to manage tasks efficiently.",
+      "image": "https://images.unsplash.com/photo-1540350394557-8d14678e7f91?w=600&q=80",
+      "tags": [
+        "Vue.js",
+        "Firebase"
+      ],
+      "link": "#"
+    },
+    {
+      "id": 1768058715089,
+      "title": "Streaming Analytics into BigQuery Skill Badge was issued by Google Cloud to Anupam Jha.",
+      "description": "Complete the Streaming Analytics into BigQuery skill badge to demonstrate skills in the following: use Pub/Sub, Dataflow and BigQuery together to stream data for analytics.",
+      "tags": [
+        ""
+      ],
+      "image": "https://images.credly.com/images/3934ff47-3ef9-40cb-82d2-66a40d33886a/linkedin_thumb_image.png",
+      "link": "https://www.credly.com/badges/dd70e4fe-6baa-46c7-bdd6-939e2c1a6eaa/public_url"
+    },
+    {
+      "id": 1768062666329,
+      "title": "",
+      "description": "",
+      "tags": [
+        ""
+      ],
+      "image": "",
+      "link": ""
+    },
+    {
+      "id": 1768810360475,
+      "title": "Test Project",
+      "description": "Test description",
+      "tags": [
+        ""
+      ],
+      "image": "https://via.placeholder.com/150",
+      "link": "https://github.com/test"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1768114328204,
+      "date": "1/11/2026, 12:22:08 PM",
+      "name": "API Tester",
+      "email": "api@test.com",
+      "message": "Hello from API Test"
+    },
+    {
+      "id": 1768809567832,
+      "date": "1/19/2026, 1:29:27 PM",
+      "name": "Test User",
+      "email": "test@example.com",
+      "message": "This is a test message to verify delete functionality."
+    }
+  ],
+  "experience": [
+    {
+      "id": 1768114328247,
+      "role": "API Dev",
+      "company": "Test Corp",
+      "duration": "2023",
+      "description": "Testing API"
+    }
+  ]
+}

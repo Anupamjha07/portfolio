@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 24px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #b2bec3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-card {
+            margin-bottom: 40px;
+            padding: 40px;
+        }
+
+        .section-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 32px;
+            font-weight: 700;
+            border-left: 4px solid var(--accent);
+            padding-left: 16px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .btn-delete {
+            background: rgba(255, 118, 117, 0.1);
+            color: #ff7675;
+            border: 1px solid rgba(255, 118, 117, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: #ff7675;
+            color: #fff;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .success-msg {
+            color: #00cec9;
+            margin-top: 16px;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border-radius: 100px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Admin Panel</h1>
+            <a href="/" class="cta-btn outline">Back to Website</a>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('projects')">Projects</button>
+            <button class="tab-btn" onclick="showTab('experience')">Experience</button>
+            <button class="tab-btn" onclick="showTab('messages')">Messages</button>
+        </div>
+
+        <!-- Projects Tab -->
+        <div id="projects-tab" class="tab-content">
+            <div class="glass-panel section-card">
+                <h2>Add New Project</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Project URL</label>
+                        <div class="input-group">
+                            <input type="text" id="projectUrl" placeholder="https://github.com/...">
+                            <button class="cta-btn" onclick="fetchMetadata()" style="padding: 12px 24px;">Fetch</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="pTitle">
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" id="pImage">
+                        <img id="imgPreview" class="preview-img">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Description</label>
+                        <textarea id="pDesc" rows="3"></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Tags (Comma separated)</label>
+                        <input type="text" id="pTags" placeholder="React, Node.js, CSS">
+                    </div>
+                </div>
+                <button onclick="addProject()" class="cta-btn" style="width: 100%; margin-top: 32px;">Add
+                    Project</button>
+                <p id="msg" class="success-msg">Project added successfully!</p>
+            </div>
+
+            <div class="glass-panel section-card">
+                <h2>Existing Projects</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Preview</th>
+                                <th>Title</th>
+                                <th>Tags</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience Tab -->
+        <div id="experience-tab" class="tab-content" style="display: none;">
+            <div class="glass-panel section-card">
+                <h2>Add Experience</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Role</label>
+                        <input type="text" id="eRole" placeholder="Senior Data Engineer">
+                    </div>
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" id="eCompany" placeholder="Google">
+                    </div>
+                    <div class="form-group">
+                        <label>Period</label>
+                        <input type="text" id="ePeriod" placeholder="2023 - Present">
+                    </div>
+                </div>
+                <button onclick="addExperience()" class="cta-btn" style="width: 100%; margin-top: 32px;">Add
+                    Role</button>
+            </div>
+
+            <div class="glass-panel section-card">
+                <h2>Manage Roles</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Company</th>
+                                <th>Period</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Tab -->
+        <div id="messages-tab" class="tab-content" style="display: none;">
+            <div class="glass-panel section-card">
+                <h2>Contact Messages</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>From</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="msgBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabName + '-tab').style.display = 'block';
+            event.target.classList.add('active');
+        }
+        async function fetchMetadata() {
+            const url = document.getElementById('projectUrl').value;
+            if (!url) return;
+
+            document.getElementById('pTitle').value = "Fetching...";
+
+            try {
+                const res = await fetch('/api/scrape', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                const data = await res.json();
+
+                document.getElementById('pTitle').value = data.title;
+                document.getElementById('pDesc').value = data.description;
+                document.getElementById('pImage').value = data.image;
+                if (data.image) {
+                    const img = document.getElementById('imgPreview');
+                    img.src = data.image;
+                    img.style.display = 'block';
+                }
+            } catch (e) {
+                alert("Failed to fetch metadata");
+                document.getElementById('pTitle').value = "";
+            }
+        }
+
+        async function addProject() {
+            const project = {
+                title: document.getElementById('pTitle').value,
+                description: document.getElementById('pDesc').value,
+                tags: document.getElementById('pTags').value.split(',').map(t => t.trim()),
+                image: document.getElementById('pImage').value,
+                link: document.getElementById('projectUrl').value
+            };
+
+            const res = await fetch('/api/projects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(project)
+            });
+
+            if (res.ok) {
+                document.getElementById('msg').style.display = 'block';
+                setTimeout(() => document.getElementById('msg').style.display = 'none', 3000);
+                // Clear form
+                document.querySelectorAll('input, textarea').forEach(i => i.value = '');
+                document.getElementById('imgPreview').style.display = 'none';
+            }
+        }
+
+        async function loadMessages() {
+            try {
+                const res = await fetch('/api/messages');
+                if (res.status === 401) {
+                    window.location.reload(); // Force auth prompt if session lost
+                    return;
+                }
+                const messages = await res.json();
+                const tbody = document.getElementById('msgBody');
+
+                if (messages.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; opacity:0.5;">No messages yet</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = messages.map(m => `
+                    <tr>
+                        <td style="font-size: 0.8rem; opacity: 0.7;">${m.date}</td>
+                        <td style="font-weight: 600;">${m.name}</td>
+                        <td>${m.email}</td>
+                        <td>${m.message}</td>
+                        <td>
+                            <button onclick="deleteMessage(${m.id})" class="btn-delete">Delete</button>    
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error("Error loading messages:", error);
+            }
+        }
+
+        loadMessages();
+        loadProjects();
+        loadExperience();
+
+        async function loadProjects() {
+            try {
+                const res = await fetch('/api/projects');
+                const projects = await res.json();
+                const tbody = document.getElementById('projectsBody');
+
+                if (projects.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; opacity:0.5;">No projects found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = projects.map(p => `
+                    <tr>
+                        <td><img src="${p.image}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;"></td>
+                        <td style="font-weight: 600;">${p.title}</td>
+                        <td style="font-size: 0.8rem; opacity: 0.7;">${p.tags ? p.tags.join(', ') : ''}</td>
+                        <td>
+                            <button onclick="deleteProject(${p.id})" class="btn-delete">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error("Error loading projects:", error);
+            }
+        }
+
+        async function loadExperience() {
+            try {
+                const res = await fetch('/api/experience');
+                const jobs = await res.json();
+                const tbody = document.getElementById('expBody');
+
+                if (jobs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; opacity:0.5;">No experience found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = jobs.map(j => `
+                    <tr>
+                        <td style="font-weight: 600;">${j.role}</td>
+                        <td>${j.company}</td>
+                        <td>${j.period}</td>
+                        <td>
+                            <button onclick="deleteExperience(${j.id})" class="btn-delete">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error("Error loading experience:", error);
+            }
+        }
+
+        async function addExperience() {
+            const role = document.getElementById('eRole').value;
+            const company = document.getElementById('eCompany').value;
+            const period = document.getElementById('ePeriod').value;
+
+            if (!role || !company) return alert("Role and Company are required");
+
+            const res = await fetch('/api/experience', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ role, company, period })
+            });
+
+            if (res.ok) {
+                document.getElementById('eRole').value = '';
+                document.getElementById('eCompany').value = '';
+                document.getElementById('ePeriod').value = '';
+                loadExperience();
+            } else {
+                alert("Failed to add experience");
+            }
+        }
+
+        async function deleteExperience(id) {
+            if (!confirm("Delete this role?")) return;
+            const res = await fetch(`/api/experience/${id}`, { method: 'DELETE' });
+            if (res.ok) loadExperience();
+        }
+
+        async function deleteProject(id) {
+            if (!confirm("Are you sure you want to delete this project?")) return;
+
+            const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                loadProjects();
+            } else {
+                alert("Failed to delete project");
+            }
+        }
+
+        async function deleteMessage(id) {
+            if (!confirm("Are you sure you want to delete this message?")) return;
+
+            const res = await fetch(`/api/messages/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                loadMessages();
+            } else {
+                alert("Failed to delete message");
+            }
+        }
+    </script>
+</body>
+
+</html>
